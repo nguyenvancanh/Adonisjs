@@ -200,3 +200,70 @@ module.exports = UserController
 
 # Request
 
+- AndonisJs truyền HTTP requets cho tất cả route theo cấu trúc sau:
+
+```
+Route.get('/', ({ request }) => {
+})
+```
+Để sử dụng được requets  thì cần cài thêm bodyparser bằng lệnh sau:
+
+```
+adonis install @adonisjs/bodyparser
+```
+
+Sau đó register vào trong file __start/app.js_
+
+```
+const providers = [
+  '@adonisjs/bodyparser/providers/BodyParserProvider'
+]
+```
+
+- Methods: Tương tự như Laravel, request trong AdonisJs cũng có những method sau:
+
++ all(): trả về request body dưới dạng object. _const all = request.all()_
++ get() _const query = request.get()_
++ post() _const body = request.post()_
++ only: const body = request.only(['username', 'email', 'age'])
++ except: const body = request.except(['csrf_token', 'submit'])
+
+
+# Views
+
+AdnonisJs sử dụng _Edge.js_ để làm template engine. Hãy xem cách sử dụng template dưới đây. Trước hết, phải đảm bảo rằng _ViewProvider_ đã được khai báo trong file _start/app.js_
+
+```
+const providers = [
+  '@adonisjs/framework/providers/ViewProvider'
+]
+```
+
+Create một view bằng lệnh:
+
+```
+adonis make:view home
+```
+Kết quả thu được là:
+
+```
+✔ create  resources/views/home.edge
+```
+
+Gọi view bằng lệnh sau:
+
+```
+Route.get('/', ({ view }) => {
+  return view.render('home')
+})
+```
+
+Gọi view từ sub-folder bằng việc sử dụng dấu '.'
+
+```
+// file path - users/list.edge
+
+view.render('users.list')
+```
+
+Tượng tự như laravel, view cũng hỗ trợ binding dữ liệu, tag code,...
